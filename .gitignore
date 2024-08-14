@@ -28,4 +28,4 @@ dist-ssr
 *.css.map
 
 # Package-lock
-pakage-lock.json
+package-lock.json
