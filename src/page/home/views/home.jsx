@@ -1,26 +1,11 @@
+import Api from "../../../Api/views/api"
 import "../assets/styles/home.css"
-import { NavLink } from "react-router-dom"
-
 
     function Home () {
 
         return ( <div className="main">
-            <nav className="main-nav">
-                <NavLink className="main-nav-logo" to='/'>
-                    <img
-                        className="main-nav-logo-image"
-                        src="./public/assets/img/argentBankLogo.png"
-                        alt="Argent Bank Logo"
-                    />
-                    <h1 className="sr-only">Argent Bank</h1>
-                </NavLink>
-                <div>
-                    <a className="main-nav-item" href="/sign-in">
-                    <i className="fa fa-user-circle"></i>
-                    Sign In
-                    </a>
-                </div>
-            </nav>
+			<Api />
+           
             <main>
             <div className="hero">
                 <section className="hero-content">
@@ -66,9 +51,6 @@ import { NavLink } from "react-router-dom"
                 </div>
             </section>
             </main>
-            <footer className="footer">
-            <p className="footer-text">Copyright 2020 Argent Bank</p>
-            </footer>
         </div>
     )
 }
