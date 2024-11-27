@@ -29,3 +29,6 @@ dist-ssr
 
 # Package-lock
 package-lock.json
+
+# Fichier de test
+SERVER_TEST\server_test.js
