@@ -2,7 +2,11 @@
 
 # Link to the repo git:
 
-- https://github.com/kando-o/OC_P-13_2024_ArgentBank.git.io.git
+Front :
+	- https://github.com/kando-o/OC_P-13_2024_ArgentBank.git.io.git
+
+Back : 
+	- https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API.git
 
 # Prerequisites
 Argent Bank uses the following tech stack:
@@ -23,30 +27,11 @@ npm install
 # Start local dev server
 npm run dev:server
 
-# Populate database with two users
-npm run populate-db
-
-# Install packages
-Run npm install for the packages
-
+# Install extension in VsCode
+Live Sass Compiler
+ 
 # Run CSS
 Run Sass for the CSS
-
-
-# Populated Database Data
-Once you run the populate-db script, you should have two users in your database:
-
-Tony Stark
-First Name: Tony
-Last Name: Stark
-Email: tony@stark.com
-Password: password123
-
-Steve Rogers
-First Name: Steve,
-Last Name: Rogers,
-Email: steve@rogers.com,
-Password: password456
 
 # React + Vite
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
