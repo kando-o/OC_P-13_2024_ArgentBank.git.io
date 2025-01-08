@@ -1,11 +1,10 @@
-import Api from "../../../Api/views/api"
+// import Api from "../../../Api/views/api"
 import "../assets/styles/home.css"
 
     function Home () {
 
         return ( <div className="main">
-			<Api />
-           
+
             <main>
             <div className="hero">
                 <section className="hero-content">
