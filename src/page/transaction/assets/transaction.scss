@@ -1,0 +1,134 @@
+html {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+}
+
+.transaction {
+	&-top {
+		width: 100%;
+		background: white;
+		border-top: 2px solid #ccc;
+		border-bottom: 2px solid #ccc;
+		border-left:1px solid #ccc ;
+		border-right:1px solid #ccc ;
+
+		p {
+			font-weight: 600;
+
+			&:nth-child(2) {
+				font-weight: 700;
+				font-size: 30px;
+			}
+		}
+	}
+
+	&-categories {
+		display: flex;
+		justify-content: space-between;
+		width: 50%;
+		margin: 5rem  auto 0;
+
+		p {
+			font-weight: 600;
+		}
+	}
+	
+	&-dropdown {
+		display: flex;
+		flex-direction: column;
+		width: 70%;
+		margin: 0 auto;
+	}
+
+	&-btncontainerDropdown {
+		border: solid 2px #ccc;
+		background: white;
+		width: 100%;
+		font-weight: 600;
+		color: #2c3e50;
+	}
+
+
+	&-dropdownContent {
+		display: flex;
+		align-items: center;
+		span {
+			font-size: 14px;
+			position: relative;
+
+			svg {
+				font-size: 14px;
+				width: 24px;
+			}
+		}
+	}
+
+	&-text {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		height: fit-content;
+	}
+}
+
+.dropdown {
+	display: flex;
+	transition: .2s ease-in-out all;
+	opacity: 0;
+	max-height: 0px;
+	overflow: hidden;
+
+	&-typeContent {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	&-typeTransaction {
+		margin: 0;
+	}
+
+	&-btnsetIsCategoryEditable {
+		width: 24px;
+		margin-left: .5rem;
+		background: none;
+		border: none;
+	}
+	
+	&-category {
+		margin: 1rem auto;
+	}
+
+	&-noteContent {
+		border: none;
+	}
+
+	&-note {
+		display: flex;
+	}
+
+	&-noteInput {
+		align-items: center;
+		margin-left: .5rem;
+	}
+
+	.isBorder {
+		display: flex;
+		align-items: center;
+
+		p {
+			margin: 0;
+		}
+	}
+}
+
+.dropdownOpen {
+	padding: 1rem 2rem;
+	background: white;
+	border: 2px #ccc solid;
+	opacity: 1;
+	max-height:500px;
+}
