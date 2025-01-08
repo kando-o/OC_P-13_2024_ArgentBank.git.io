@@ -1,15 +1,36 @@
-import { useState } from "react"
+import axios from 'axios'
+import { NavLink } from "react-router-dom"
+
+import { useState, useEffect } from "react"
 import "../assets/styles/user.css"
 import { useDispatch, useSelector } from "react-redux"
 import { setName, resetName } from "../../../features/changeName"
 
 function User () {
-	
 	const [isHidden, setIsHidden] = useState(false)
+	const [firstName, setFirstName] = useState('')
+	const [lastName, setLastName] = useState('')
+
 	const dispatch = useDispatch()
-	const name = useSelector(state => state.changeName)
-	const firstName = document.querySelector('.edit-firstName')
-	const inputeName = document.querySelector('.edit-name')
+	const userInfo = useSelector(state => state.changeName)
+
+	useEffect(() => {
+		// Si le token existe 
+		if (localStorage.getItem("token")) {
+			const tokenStr = localStorage.getItem("token")
+			axios.post('http://localhost:3001/api/v1/user/profile', {}, { headers: {"Authorization" : `Bearer ${tokenStr}`}}) // Fait une requête vers l'API et valide le bon token pour la validation et la connexion
+				.then(res => {
+					dispatch(setName({
+						firstName: res.data.body.firstName,
+						lastName: res.data.body.lastName,
+					}))
+					
+				})
+				.catch(err => console.log('Une erreur c\'est produit lors de la récupération de l\'user ! Message error :', err ))
+		} else {
+			window.location.href = "/"
+		}
+	}, [])
 
 	const btnHidden =  () => {
 		setIsHidden(true)
@@ -23,34 +44,52 @@ function User () {
 			<main className="main bg-dark">
 				<div className="header">
 
-					<h1>Welcome back  {firstName ? firstName.value +" "+ inputeName.value : "" || inputeName ? name.value : ""}</h1>
-						<button 
-							className={`edit-button ${!isHidden ? '' : "hidden" }`}
-							onClick={() => {
-								btnHidden() 
-								dispatch(setName())
-							}}
-						>
-							Edit Name
-						</button>
+					<h1 className='header-fNameLName'>Welcome back {userInfo && userInfo.value.firstName} {userInfo && userInfo.value.lastName}</h1>
+					<button 
+						className={`edit-button ${!isHidden ? '' : "hidden" }`}
+						onClick={() => {
+							btnHidden()
+						}}
+					>
+						Edit Name
+					</button>
+					<div className="testHidden">
+
 					<div className={`edit ${isHidden ? 'noHidden' : "hidden" }`}>
 						<div className={`edit-nameFirstName`}>
 							<input className="edit-firstName" 
 								type="text" 
-								placeholder="firstName" 
+								placeholder="firstName"
+								value={firstName}
+								onChange={(e) => { setFirstName(e.target.value) } }
 							/>
 
 							<input className="edit-name" 
 								type="text"  
-								placeholder="Name" 
+								placeholder="Name"
+								value={lastName}
+								onChange={(e) => { setLastName(e.target.value) }}
 							/>
 						</div>
 						<div className={`edit-validation`}>
 							<button className="edit-save" 
 							type="button"
+							//A chaque click prend la valeur de fName & lName la change dans l'API et met à jour le dom avec les nouvelles valeurs de Fname & lName
 							onClick={() => {
-									if (firstName !== "" ) {
-										dispatch(setName(firstName.value + inputeName.value))
+									if (firstName && lastName) {
+										dispatch(setName({
+											firstName: firstName,
+											lastName: lastName
+										}))
+
+										// call API
+										const tokenStr = localStorage.getItem("token")
+										axios.put('http://localhost:3001/api/v1/user/profile', {
+											firstName: firstName,
+											lastName: lastName
+										}, 
+										{ headers: {"Authorization" : `Bearer ${tokenStr}`}})
+											.then(res => console.log('res', res))
 										btnHidden()
 									}
 								}
@@ -63,12 +102,13 @@ function User () {
 								type="button"
 								onClick={() => {
 										btnHidden()
-										resteName()
+										resetName()
 									}}
 							>
 								Cancel
 							</button>
 						</div>
+					</div>
 					</div>
 				</div>
 				<h2 className="sr-only">Accounts</h2>
@@ -79,7 +119,11 @@ function User () {
 						<p className="account-amount-description">Available Balance</p>
 					</div>
 					<div className="account-content-wrapper cta">
-						<button className="transaction-button">View transactions</button>
+						<NavLink className="nav-logo" to='transaction'>
+							<button className="transaction-button">
+								View transactions
+							</button>
+						</NavLink>
 					</div>
 				</section>
 				<section className="account">
@@ -89,7 +133,11 @@ function User () {
 						<p className="account-amount-description">Available Balance</p>
 					</div>
 					<div className="account-content-wrapper cta">
-						<button className="transaction-button">View transactions</button>
+						<NavLink className="nav-logo" to='transaction'>
+							<button className="transaction-button">
+								View transactions
+							</button>
+						</NavLink>
 					</div>
 				</section>
 				<section className="account">
@@ -99,7 +147,11 @@ function User () {
 						<p className="account-amount-description">Current Balance</p>
 					</div>
 					<div className="account-content-wrapper cta">
-						<button className="transaction-button">View transactions</button>
+						<NavLink className="nav-logo" to='transaction'>
+							<button className="transaction-button">
+								View transactions
+							</button>
+						</NavLink>
 					</div>
 				</section>
 			</main>
