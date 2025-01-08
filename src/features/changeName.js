@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-	value : ""
+	value : {
+		firstName : "",
+		lastName : ""
+	}
 }
 
 export const changeName = createSlice({
@@ -9,16 +12,18 @@ export const changeName = createSlice({
 	initialState,
 	reducers : {
 		setName : (state, action) => {
-			console.log("changename", state.value);
 			state.value = action.payload
-			
+		},
+		updateName : (state, action) => {
+			userJson = JSON.stringify(res.data.body)
+			state = action.payload
 		},
 		resetName : (state, action) => {
 			console.log('reset', state.value);
-			state.value = ""
+			action.payload = ""
 		}
 	}
 })
 
-export const {setName, resetName} = changeName.actions
+export const {setName, resetName, updateName} = changeName.actions
 export default changeName.reducer
