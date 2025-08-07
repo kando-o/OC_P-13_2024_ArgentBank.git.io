@@ -1,11 +1,11 @@
 import {configureStore} from "@reduxjs/toolkit"
-import  changeName  from "./features/changeName"
+import  user  from "./features/user"
 import transaction from "./features/transaction"
 
 export const store = configureStore ({
 
 	reducer : {
-		changeName,
+		user,
 		transaction
 	}
 })

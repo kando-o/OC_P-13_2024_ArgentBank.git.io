@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom"
 import { useState, useEffect } from "react"
 import "../assets/styles/user.css"
 import { useDispatch, useSelector } from "react-redux"
-import { setName, resetName } from "../../../features/changeName"
+import { setName } from "../../../features/user"
 
 function User () {
 	const [isHidden, setIsHidden] = useState(false)
@@ -12,35 +12,34 @@ function User () {
 	const [lastName, setLastName] = useState('')
 
 	const dispatch = useDispatch()
-	const userInfo = useSelector(state => state.changeName)
+	const userInfo = useSelector(state => state.user)
 
-	useEffect(() => {
-		// Si le token existe 
-		if (localStorage.getItem("token")) {
-			const tokenStr = localStorage.getItem("token")
-			axios.post('http://localhost:3001/api/v1/user/profile', {}, { headers: {"Authorization" : `Bearer ${tokenStr}`}}) // Fait une requête vers l'API et valide le bon token pour la validation et la connexion
+	// toggle hidden state
+	const btnHidden =  () => setIsHidden(v => !v)
+
+	const editProfile = () => {
+		if (firstName && lastName) {
+			// call API
+			const tokenStr = userInfo.token
+			axios.put('http://localhost:3001/api/v1/user/profile', {
+					firstName: firstName,
+					lastName: lastName
+				}, 
+				{ headers: {"Authorization" : `Bearer ${tokenStr}`}}
+			)
 				.then(res => {
+					console.log('res', res)
 					dispatch(setName({
-						firstName: res.data.body.firstName,
-						lastName: res.data.body.lastName,
+						firstName: firstName,
+						lastName: lastName
 					}))
-					
+					btnHidden()
 				})
-				.catch(err => console.log('Une erreur c\'est produit lors de la récupération de l\'user ! Message error :', err ))
-		} else {
-			window.location.href = "/"
 		}
-	}, [])
+	}
 
-	const btnHidden =  () => {
-		setIsHidden(true)
-		if (isHidden) {
-			setIsHidden(false)
-		}
-	}	
-
-    return (
-        <div className="main" style={{ fontFamily: 'Nunito, sans-serif' }}>
+	return (
+		<div className="main" style={{ fontFamily: 'Nunito, sans-serif' }}>
 			<main className="main bg-dark">
 				<div className="header">
 
@@ -75,25 +74,7 @@ function User () {
 							<button className="edit-save" 
 							type="button"
 							//A chaque click prend la valeur de fName & lName la change dans l'API et met à jour le dom avec les nouvelles valeurs de Fname & lName
-							onClick={() => {
-									if (firstName && lastName) {
-										dispatch(setName({
-											firstName: firstName,
-											lastName: lastName
-										}))
-
-										// call API
-										const tokenStr = localStorage.getItem("token")
-										axios.put('http://localhost:3001/api/v1/user/profile', {
-											firstName: firstName,
-											lastName: lastName
-										}, 
-										{ headers: {"Authorization" : `Bearer ${tokenStr}`}})
-											.then(res => console.log('res', res))
-										btnHidden()
-									}
-								}
-							} 
+							onClick={ editProfile } 
 							>
 								Save
 							</button>
@@ -102,7 +83,7 @@ function User () {
 								type="button"
 								onClick={() => {
 										btnHidden()
-										resetName()
+										setName({firstName: "", lastName: ""})
 									}}
 							>
 								Cancel

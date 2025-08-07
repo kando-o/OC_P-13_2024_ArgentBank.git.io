@@ -72,6 +72,20 @@ body {
 	width: 200px;
 }
 
+.nav-link {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.nav-user-profile {
+	cursor: pointer;
+	text-decoration: none;
+	font-weight: 600;
+	color: #2c3e50;
+	font-size: 1.25rem;
+	display: flex;
+	align-items: center;
+}
 .account {
 	display: flex;
 	justify-content: space-between;

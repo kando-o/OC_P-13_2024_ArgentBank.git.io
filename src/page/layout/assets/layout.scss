@@ -1,10 +1,12 @@
 .layoutContainer {
-	min-height: calc(100dvh - 50px);
+	min-height: calc(100dvh - 120px);
+	max-height: calc(100dvh - 120px);
+	width: 100%;
 	display: flex;
 	background-color: #dfe6ed;
+	overflow-y: auto;
 
 	&-content {
 		flex: 1; // Remplie tout l'espace disponible dans le layout
-		padding-bottom: 150px; //garantie que les layout et le footer ne se chevauche pas du au calc du layout
 	}
 }

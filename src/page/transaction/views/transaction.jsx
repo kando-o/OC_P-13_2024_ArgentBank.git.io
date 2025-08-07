@@ -41,42 +41,42 @@ export default function Transaction() {
 					<p>$2,082.79</p>
 					<p>Avaible Balance</p>
 				</div>
-				<div className='transaction-categories'>
-					<p>Date</p>
-					<p>Description</p>
-					<p>Amount</p>
-					<p>Balance</p>
-				</div>
-				<div className="transaction-dropdown">
-					{ data && data.value &&
-						data.value.map((item, index) => (
-						<div className='transaction-containerDropdown' key={index}>
-							
-							<button className='transaction-btncontainerDropdown' 
-								type="button" 
-								onClick={() => {
-									setIsOpen(isOpen === index ? null : index)
-									dispatch(setTransaction())
-									setIsBorder(true)
-									console.log(isBorder);
-									
-								}}
-							>
-								{isOpen === index ? 
-									<div className='transaction-dropdownContent'>
-										<span> 
+				<div className="transaction-table">
+					<div className='transaction-categories'>
+						<p>Date</p>
+						<p>Description</p>
+						<p>Amount</p>
+						<p>Balance</p>
+					</div>
+					<div className="transaction-dropdown">
+						{ data && data.value &&
+							data.value.map((item, index) => (
+							<div className='transaction-containerDropdown' key={index}>
+								
+								<button className='transaction-btncontainerDropdown' 
+									type="button" 
+									onClick={() => {
+										setIsOpen(isOpen === index ? null : index)
+										dispatch(setTransaction())
+										setIsBorder(true)
+										console.log(isBorder);
+										
+									}}
+								>
+									<div className='transaction-dropdownContent relative'>
+										<span className="absolute"> 
 											<svg aria-hidden="true" 
 												focusable="false" 
 												data-prefix="fas" 
 												data-icon="chevron-up" 
-												className="svg-inline--fa fa-chevron-up" 
+												className={"chevron svg-inline--fa fa-chevron-up"+ (isOpen === index ? "" : " open")}
 												role="img" xmlns="http://www.w3.org/2000/svg" 
 												viewBox="0 0 24 24"
 											>
 												<path fill="currentColor" 
 												d="M19.71 15.29a1 1 0 0 1-1.42 0L12 8.83l-6.29 6.46a1 1 0 0 1-1.42-1.42l7-7a1 1 0 0 1 1.42 0l7 7a1 1 0 0 1 0 1.42z"
 												></path>
-											</svg> {" "}
+											</svg>
 										</span>
 
 										<div className='transaction-text'>
@@ -94,109 +94,76 @@ export default function Transaction() {
 											</p>
 										</div>
 									</div>
+								</button>
 
-									: 
-									<div className='transaction-dropdownContent'>
-										<span>
-											<svg aria-hidden="true" 
-												focusable="false" 
-												data-prefix="fas" 
-												data-icon="chevron-down" 
-												className="svg-inline--fa fa-chevron-down" 
-												role="img" xmlns="http://www.w3.org/2000/svg" 
-												viewBox="0 0 24 24"
-											>
-												<path fill="currentColor" 
-												d="M4.29 8.71a1 1 0 0 1 1.42 0L12 15.17l6.29-6.46a1 1 0 0 1 1.42 1.42l-7 7a1 1 0 0 1-1.42 0l-7-7a1 1 0 0 1 0-1.42z"
-												></path>
-											</svg> {" "}
-										</span>
-
-										<div className='transaction-text'>
-											<p>
-												{item.date}
+								<div className={`dropdown ${isOpen === index ? 'dropdownOpen' : ""}` }>
+										<div className="dropdown-info">
+											<p className="dropdown-typeTransaction">
+												Transaction Type: {item.transaction}
 											</p>
-											<p>
-												{item.description}
-											</p>
-											<p>
-												{item.amount}
-											</p>
-											<p>
-												{item.balance}
-											</p>
-										</div> 
-									</div>
-								} {/* //Comme false affiche le deuxieme choix */}
-							</button>
-
-							<div className={`dropdown ${isOpen === index ? 'dropdownOpen' : ""}` }>
-									<div className="dropdown-info">
-										<p className="dropdown-typeTransaction">
-											Transaction Type: {item.transaction}
-										</p>
-										{ isCategoryEditable ? (
-												<div className='dropdown-category'>
-													Category: <select 
-														value={categories[index]}
-														onChange={(e) => handlCategoryChange(index, e.target.value)} // set la valeur de category à chaque séléction d'option de l'user
-														onBlur={() => setIsCategoryEditable(false)} // A la sortie du champ select, le select se ferme
-													>
-														<option value="Food">Food</option>
-														<option value="Entertainement">Entertainement</option>
-														<option value="Transporation">Transporation</option>
-													</select>
-												</div>
-											
-											) 
-											: 
-											(
-												<div className='dropdown-category'>
-													<p className="dropdown-typeContent">
-														<span>Category: {categories[index]} </span>
-														
-														<button className='dropdown-btnsetIsCategoryEditable' type="button" 
-															onClick={() => setIsCategoryEditable(true)}
+											{ isCategoryEditable ? (
+													<div className='dropdown-category'>
+														Category: <select 
+															value={categories[index]}
+															onChange={(e) => handlCategoryChange(index, e.target.value)} // set la valeur de category à chaque séléction d'option de l'user
+															onBlur={() => setIsCategoryEditable(false)} // A la sortie du champ select, le select se ferme
 														>
-															🖍
-														</button>
-													</p>
-												</div>
-											)
-										}
-
-										{ isNotesEditable && isOpen === index ? ( 
-											<div className={`btncontainerDropdown ${isBorder? "isBorder" : "1"}`}>
-												<p>Notes:</p>
-												<input type="text"
-													value={notes[index]}
-													className='dropdown-noteInput'
-													onChange={(e) => handleChangeNote(index, e.target.value)}  // set la valeur de notes à chaque changement de l'user
-													onBlur={() => setIsNotesEditable(false)}
-												/> 
-											</div>
+															<option value="Food">Food</option>
+															<option value="Entertainement">Entertainement</option>
+															<option value="Transporation">Transporation</option>
+														</select>
+													</div>
 												
-											) 
-											: 
-											(
+												) 
+												: 
+												(
+													<div className='dropdown-category'>
+														<p className="dropdown-typeContent">
+															<span>Category: {categories[index]} </span>
+															
+															<button className='dropdown-btnsetIsCategoryEditable' type="button" 
+																onClick={() => setIsCategoryEditable(true)}
+															>
+																🖍
+															</button>
+														</p>
+													</div>
+												)
+											}
 
-												<div className='dropdown-note'>
-													<span>Notes: {notes[index]}</span>
-													<button className="dropdown-noteContent" type="button" 
-														onClick={() => setIsNotesEditable(true)}
-													>
-														<span>📝</span>
-													</button>
+											{ isNotesEditable && isOpen === index ? ( 
+												<div className={`btncontainerDropdown ${isBorder? "isBorder" : "1"}`}>
+													<p>Notes:</p>
+													<input type="text"
+														value={notes[index]}
+														className='dropdown-noteInput'
+														onChange={(e) => handleChangeNote(index, e.target.value)}  // set la valeur de notes à chaque changement de l'user
+														onBlur={() => setIsNotesEditable(false)}
+													/> 
 												</div>
+													
+												) 
+												: 
+												(
 
-											)
-										}
-									</div>
+													<div className='dropdown-note'>
+														<span>Notes: {notes[index]}</span>
+														<button className="dropdown-noteContent" type="button" 
+															onClick={() => setIsNotesEditable(true)}
+														>
+															<span>📝</span>
+														</button>
+													</div>
+
+												)
+											}
+										</div>
+								</div>
 							</div>
-						</div>
-					))}
-					
-				</div>	
+						))}
+						
+					</div>
+				</div>
 			</div>
 		</>
 	)

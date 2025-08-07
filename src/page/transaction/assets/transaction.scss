@@ -7,6 +7,25 @@ html {
 }
 
 .transaction {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	align-items: center;
+	gap: 2rem;
+
+	.chevron {
+		padding: 0.25rem;
+		transition: transform 0.2s ease-in-out;
+		&.open {
+			transform: rotate(180deg);
+		}
+	}
+	.relative {
+		position: relative;
+	}
+	.absolute {
+		position: absolute;
+	}
 	&-top {
 		width: 100%;
 		background: white;
@@ -25,13 +44,18 @@ html {
 		}
 	}
 
+	&-table {
+		display: flex;
+		flex-direction: column;
+		width: 70%;
+	}
 	&-categories {
 		display: flex;
 		justify-content: space-between;
-		width: 50%;
-		margin: 5rem  auto 0;
+		width: 100%;
 
 		p {
+			flex: 1;
 			font-weight: 600;
 		}
 	}
@@ -39,8 +63,7 @@ html {
 	&-dropdown {
 		display: flex;
 		flex-direction: column;
-		width: 70%;
-		margin: 0 auto;
+		width: 100%;
 	}
 
 	&-btncontainerDropdown {
@@ -49,6 +72,7 @@ html {
 		width: 100%;
 		font-weight: 600;
 		color: #2c3e50;
+		padding: 0;
 	}
 
 
@@ -69,9 +93,10 @@ html {
 	&-text {
 		width: 100%;
 		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
 		height: fit-content;
+		& p {
+			flex: 1;
+		}
 	}
 }
 
