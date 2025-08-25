@@ -1,0 +1,174 @@
+openapi: 3.0.3
+info:
+  title: ArgentBank API
+  version: 1.0.0
+  description: >-
+    Spécification initiale de l'API ArgentBank.
+servers:
+  - url: http://localhost:3001
+    description: Dev server Projet ArgentBank
+tags:
+  - name: Auth
+    description: Authentification et session
+  - name: User
+    description: Profil utilisateur
+  - name: Transactions
+    description: Opérations bancaires
+paths:
+  /api/v1/user/login:
+    post:
+      tags: [Auth]
+      summary: Connexion utilisateur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            examples:
+              exemple:
+                value:
+                  email: user@example.com
+                  password: Passw0rd!
+      responses:
+        '200':
+          description: Connecté, retourne un JWT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: Requête invalide
+        '401':
+          description: Identifiants invalides
+  /api/v1/user/profile:
+    get:
+      tags: [User]
+      summary: Récupérer le profil utilisateur courant
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Profil utilisateur
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Non autorisé
+    put:
+      tags: [User]
+      summary: Mettre à jour le nom/prénom de l'utilisateur
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+            examples:
+              exemple:
+                value:
+                  firstName: Jason
+                  lastName: Kando
+      responses:
+        '200':
+          description: Profil mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '400':
+          description: Données invalides
+        '401':
+          description: Non autorisé
+  /api/v1/transactions:
+    get:
+      tags: [Transactions]
+      summary: Lister les transactions du compte de l'utilisateur
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: query
+          name: month
+          schema:
+            type: string
+            pattern: '^[0-9]{4}-[0-9]{2}$'
+          description: Filtrer par mois (YYYY-MM)
+      responses:
+        '200':
+          description: Liste de transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '401':
+          description: Non autorisé
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 6
+    LoginResponse:
+      type: object
+      required: [token]
+      properties:
+        token:
+          type: string
+          description: JWT token
+    UserProfile:
+      type: object
+      required: [id, firstName, lastName, email]
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+    UpdateUserRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+    Transaction:
+      type: object
+      required: [id, date, label, amount, currency]
+      properties:
+        id:
+          type: string
+        date:
+          type: string
+          format: date-time
+        label:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+          example: EUR
