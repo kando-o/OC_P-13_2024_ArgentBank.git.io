@@ -15,7 +15,7 @@ export default function Api() {
 	// Ajouter un user
 	const addUser = async () => {
 		// Ajout des user dans Le Back
-		axios.post('http://localhost:3001/api/v1/user/signup', {email: 'Kyssii.luvk@live.fr', firstName : 'kyssii', lastName : "luv", password: '890lovecharger' })
+		axios.post('http://localhost:3001/api/v1/user/signup', {email: 'Kyssii.luvk@live.fr', firstName : 'kyssii', lastName : "luv", password: 'lovecharger' })
 			.then(res => setUsers([...users, res.data]))
 			.catch(err => console.log('Une erreur c\'est produit lors de l\'ajout de l\'user ! Message error :', err ))
 	}
