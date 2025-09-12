@@ -32,3 +32,6 @@ package-lock.json
 
 # Fichier de test
 SERVER_TEST\server_test.js
+
+# Presentation
+presentation

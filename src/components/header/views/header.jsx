@@ -1,25 +1,19 @@
 import React, { useEffect } from 'react'
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import "../assets/header.css"
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { onConnect, onSignout } from "../../../features/user"
 
 function Header() {
-	const location = useLocation()
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const { value, connected, token } =  useSelector((state) => state.user)
 
 	// Reconnection automatique
 	useEffect(() => {
-		if (connected) {
-			console.log(location)
-			/*
-			if (location.pathname === "/") {
-				navigate('/user')
-			}
-			*/
+		if (connected && token) {
+			navigate('/user')
 			return
 		}
 	
@@ -33,12 +27,13 @@ function Header() {
 				})
 				.catch(err => console.log('Une erreur c\'est produit lors de la récupération de l\'user ! Message error :', err ))
 		}
-	}, [token, location])
+	}, [token, connected])
 
 	const signOut = () => {
 		dispatch(onSignout())
 		navigate("/")
 	}
+
 	return (
 		<>
 			<nav className="nav">

@@ -2,19 +2,18 @@ import axios from 'axios'
 
 import { useState } from 'react'
 import "../assets/styles/sign-in.css";
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from "../../../features/user"
 
 function SignIn() {
 	const dispatch = useDispatch()
+	const {token} = useSelector((state) => state.user)
 	const [form, setForm] = useState({
 		username: "",
 		password: "",
 		rememberme: false,
 	})
 	const [failed, setFailed] = useState("")
-	const navigate = useNavigate()
 
 	// Au clique sur le btn Sign In
 	const handleSignIn = async (ev) => {
@@ -26,9 +25,8 @@ function SignIn() {
 							console.log("User logged in successfully");
 							dispatch(login({
 								token: res.data.body.token,
-								rememberme: form.rememberme
+								rememberme: form.rememberme,
 							}))
-							navigate("/user");
 					})
 					.catch(err => {
 						console.log("User not logged in", err);
@@ -37,11 +35,17 @@ function SignIn() {
 	}
 
 	const handleChange = (e) => {
-		setForm(c => ({
-			...c,
-			[e.target.name]: e.target.value
-		}))
+		if(form[e.target.name] !== e.target.value) {
+			setForm(c => ({
+				...c,
+				[e.target.name]: e.target.value
+			}))
+		}
 		// à chaque changement copie le contenue de l'ancien form remplace la valeur du champ name par la modification de l'user
+	}
+
+	if (token !=="") {
+		return null;
 	}
 
 	return (

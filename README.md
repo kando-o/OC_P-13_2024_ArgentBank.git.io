@@ -38,7 +38,7 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 ## API Documentation
 
-To learn more about how the API works, once you have started your local environment, you can visit: http://localhost:5173/docs.html#/Transactions/get_api_v1_transactions
+Link Swagger http://localhost:5173/docs.html#/Transactions/get_api_v1_transactions
 
 Currently, two official plugins are available:
 

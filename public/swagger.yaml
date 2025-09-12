@@ -139,9 +139,47 @@ paths:
               $ref: '#/definitions/Transaction'
         '401':
           description: Non autorisé
+        '422':
+          description: Erreur de validation (ex. format de mois invalide)
+          schema:
+            $ref: '#/definitions/ErrorResponse'
         '500':
           description: Internal Server Error
   /user/transactions/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions
+      summary: Voir le détail d'une transaction
+      description: API pour récupérer une transaction par son ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: ID de la transaction
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction récupérée avec succès
+          schema:
+            $ref: '#/definitions/Transaction'
+        '401':
+          description: Non autorisé
+        '404':
+          description: Transaction non trouvée
+        '422':
+          description: Erreur de validation (ex. identifiant invalide)
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal Server Error
     put:
       security:
         - Bearer: []
@@ -178,6 +216,10 @@ paths:
           description: Non autorisé
         '404':
           description: Transaction non trouvée
+        '422':
+          description: Erreur de validation (ex. corps de requête invalide)
+          schema:
+            $ref: '#/definitions/ErrorResponse'
         '500':
           description: Internal Server Error
 securityDefinitions:
@@ -266,3 +308,23 @@ definitions:
       notes:
         type: string
         description: Nouvelles notes personnelles
+  ErrorResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+        example: 422
+      message:
+        type: string
+        example: Unprocessable Entity
+      errors:
+        type: array
+        items:
+          type: object
+          properties:
+            field:
+              type: string
+              example: month
+            message:
+              type: string
+              example: Format attendu YYYY-MM
