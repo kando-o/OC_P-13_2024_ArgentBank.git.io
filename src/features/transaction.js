@@ -56,7 +56,6 @@ export const transaction = createSlice({
 		setTransaction : (state, action) => {
 			state = state.value
 		}
-		
 	} 
 })
 
